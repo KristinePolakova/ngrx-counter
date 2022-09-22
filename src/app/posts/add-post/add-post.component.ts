@@ -11,6 +11,7 @@ import { addPost } from '../state/posts.actions';
   styleUrls: ['./add-post.component.css']
 })
 export class AddPostComponent implements OnInit {
+  post!: Post;
   postForm!: FormGroup;
 
   constructor(private store: Store<AppState>) { }
@@ -34,6 +35,7 @@ export class AddPostComponent implements OnInit {
     }
 
     const post: Post = {
+      id: this.post.id,
       title: this.postForm.value.title,
       description: this.postForm.value.description,
     };
