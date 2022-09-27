@@ -7,7 +7,7 @@ import { catchError, exhaustMap, map, tap } from "rxjs/operators";
 import { AuthService } from "src/app/services/auth.service";
 import { AppState } from "src/app/store/app.state";
 import { setErrorMessage, setLoadingSpinner } from "src/app/store/shared/shared.actions";
-import { loginStart, loginSuccess } from "./auth.actions";
+import { loginStart, loginSuccess, signUpStart, signUpSuccess } from "./auth.actions";
 
 @Injectable()
 
@@ -45,11 +45,33 @@ export class AuthEffects {
     loginRedirect$ = createEffect(
         (): any => {
             return this.actions$.pipe(
-                ofType(loginSuccess),
+                ofType(...[loginSuccess, signUpSuccess]),
                 tap((action) => {
+                    this.store.dispatch(setErrorMessage({ message: '' }));
                     this.router.navigate(['/']);
                 })
             );
         }, { dispatch: false }
     );
+
+    signUp$ = createEffect(() => {
+        return this.actions$.pipe(
+            ofType(signUpStart),
+            exhaustMap((action) => {
+                return this.authService.signUp(action.email, action.password).pipe(
+                    map((data) => {
+                        this.store.dispatch(setLoadingSpinner({ status: false }));
+                        const user = this.authService.formatUser(data);
+                        return signUpSuccess({ user });
+                    }), catchError((errResponse) => {
+                        this.store.dispatch(setLoadingSpinner({ status: false }))
+                        const errorMessage = this.authService.getErrorMessage(
+                            errResponse.error.error.message
+                        );
+                        return of(setErrorMessage({ message: errorMessage }));
+                    })
+                )
+            })
+        )
+    })
 }
