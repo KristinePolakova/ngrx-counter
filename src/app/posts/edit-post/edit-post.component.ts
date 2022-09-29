@@ -28,10 +28,8 @@ export class EditPostComponent implements OnInit, OnDestroy {
       //     this.post = data;
       //     this.createForm();
       //   });
-
     });
   }
-
   createForm() {
     this.postForm = new FormGroup({
       title: new FormControl(this.post.title, [
@@ -45,11 +43,11 @@ export class EditPostComponent implements OnInit, OnDestroy {
     });
   }
 
-
   onSubmit() {
     if (!this.postForm.valid) {
       return;
     }
+
     const title = this.postForm.value.title;
     const description = this.postForm.value.description;
 
@@ -57,8 +55,9 @@ export class EditPostComponent implements OnInit, OnDestroy {
       id: this.post.id,
       title,
       description,
-    }
+    };
 
+    //dispatch the action
     this.store.dispatch(updatePost({ post }));
     this.router.navigate(['posts']);
   }

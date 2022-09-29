@@ -28,4 +28,20 @@ export class PostsService {
             post
         );
     }
+
+    updatePost(post: Post) {
+        const postData = {
+            [post.id]: { title: post.title, description: post.description },
+        };
+        return this.http.patch(
+            `https://angular-ngrx-24bc6-default-rtdb.europe-west1.firebasedatabase.app/posts.json`,
+            postData
+        );
+    }
+
+    deletePost(id: string) {
+        return this.http.delete(
+            `https://angular-ngrx-24bc6-default-rtdb.europe-west1.firebasedatabase.app/posts/${id}.json`
+        );
+    }
 }
