@@ -11,7 +11,6 @@ import { addPost } from '../state/posts.actions';
   styleUrls: ['./add-post.component.css']
 })
 export class AddPostComponent implements OnInit {
-  post!: Post;
   postForm!: FormGroup;
 
   constructor(private store: Store<AppState>) { }
@@ -20,27 +19,13 @@ export class AddPostComponent implements OnInit {
     this.postForm = new FormGroup({
       title: new FormControl(null, [
         Validators.required,
-        Validators.minLength(6)
+        Validators.minLength(6),
       ]),
       description: new FormControl(null, [
         Validators.required,
-        Validators.minLength(10)
+        Validators.minLength(10),
       ]),
     });
-  }
-
-  onAddPost() {
-    if (!this.postForm.valid) {
-      return;
-    }
-
-    const post: Post = {
-      id: this.post.id,
-      title: this.postForm.value.title,
-      description: this.postForm.value.description,
-    };
-
-    this.store.dispatch(addPost({ post }));
   }
 
   showDescriptionErrors() {
@@ -54,6 +39,20 @@ export class AddPostComponent implements OnInit {
       }
     }
     return null;
+  }
+
+  onAddPost() {
+    if (!this.postForm.valid) {
+      return;
+    }
+
+    const post: Post = {
+      title: this.postForm.value.title,
+      description: this.postForm.value.description,
+      id: ''
+    };
+
+    this.store.dispatch(addPost({ post }));
   }
 
 }
