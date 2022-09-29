@@ -22,12 +22,13 @@ export class EditPostComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
-      // this.postSubscription = this.store
-      //   .select(getPostById, { id })
+      // this.store.select(getPostById({ id }))
       //   .subscribe((data) => {
       //     this.post = data;
       //     this.createForm();
       //   });
+
+      console.log(id);
     });
   }
   createForm() {
