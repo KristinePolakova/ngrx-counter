@@ -34,4 +34,6 @@ export const autoLogin = createAction(AUTO_LOGIN_ACTION);
 
 export const autoLogout = createAction(LOUGOUT_ACTION);
 
-export const loginFailure = createAction(LOGIN_FAILURE);
+export const dummyAction = createAction('[dummy action]');
+
+

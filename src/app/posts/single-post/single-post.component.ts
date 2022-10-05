@@ -11,7 +11,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./single-post.component.css'],
 })
 export class SinglePostComponent implements OnInit {
-  post?: Observable<Post>;
+  post!: Observable<Post>;
 
   constructor(private store: Store<AppState>) { }
 
